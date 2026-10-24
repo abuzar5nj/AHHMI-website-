@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera & Mic Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        video {
+            width: 100%;
+            max-width: 640px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: black;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #status {
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Camera aur Microphone Access</h1>
+    
+    <!-- Video yahan dikhega -->
+    <video id="webcam" autoplay playsinline></video>
+    
+    <br>
+    <button onclick="startBoth()">Start Camera & Mic</button>
+    <p id="status"></p>
+
+    <script>
+        async function startBoth() {
+            const statusText = document.getElementById('status');
+            
+            try {
+                // Ye command DOONO (Video + Audio) ek saath maangti hai
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: true, 
+                    audio: true 
+                });
+
+                // Video element ko stream se connect karein
+                const videoElement = document.getElementById('webcam');
+                videoElement.srcObject = stream;
+
+                statusText.innerText = "Success! Camera aur Mic on ho gaye.";
+                console.log("Stream started:", stream);
+
+            } catch (error) {
+                console.error("Error aaya:", error);
+                statusText.innerText = "Error: Access diya nahi ya device nahi mila.";
+                statusText.style.color = "red";
+            }
+        }
+    </script>
+
+</body>
+</html>
